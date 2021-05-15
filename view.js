@@ -1,33 +1,76 @@
-const {printTable} = require('console-table-printer');
+// Importation
 const figlet = require('figlet');
+const chalk = require('chalk');
+const inquirer = require('inquirer');
+const {initModel} = require('./model');
 
-function printTitle()
+function viewTitle()
 {
-    figlet('Tip Calculator App', function(err, data) {
-        if (err) {
-            console.log('Something went wrong...');
-            console.dir(err);
-            return;
-        }
-        console.log(data)
-    });
+    return chalk.green(
+        figlet.textSync(
+            'Tip Calculator App',
+            {
+                horizontalLayout: 'full',
+                font: 'Nancyj-Underlined'
+            }
+        )
+    )
 };
 
-
-function viewTable()
+function viewTable(model)
 {
-    const testCases = [{
-        'Bill Amount': '$' + bill,
-        'Tip (%)': tip_percent + '%',
+    const {billAmount} = initModel;
+    const {percent} = initModel;
+    const {bill_tip} = initModel;
+    const {bill_total} = initModel;
+    
+    return [{
+        'Bill Amount': '$' + billAmount,
+        'Tip (%)': percent + '%',
         'Tip': '$' + bill_tip,
         'Total': '$' + bill_total}
     ];
-
-    printTable(testCases);
 };
 
-module.exports
+function inputBill(model)
 {
-    printTable,
-    textCases
+    const {billAmount} = initModel;
+    const message = 'Bill Amount?: ';
+    return inquirer.prompt([
+        {
+            name: 'input',
+            type: 'number',
+            message: message,
+            default: billAmount
+        }
+    ])
+};
+
+function inputPercent(model)
+{
+    const {percent} = initModel;
+    const message = 'Tip(%)?: ';
+    return inquirer.prompt([
+        {
+            name: 'input',
+            type: 'number',
+            message: message,
+            default: percent
+        }
+    ])
+};
+
+function view(model)
+{
+    return {
+        title: viewTitle(),
+        table: viewTable(model)
+    };
+};
+
+// Exportation
+module.exports = {
+    inputBill,
+    inputPercent,
+    view
 }
