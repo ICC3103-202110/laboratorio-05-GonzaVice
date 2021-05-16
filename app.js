@@ -1,42 +1,34 @@
 // Importation
-const {view, inputBill, inputPercent} = require('./view');
-const {initModel} = require('./model');
+const {view, input_bill, input_percent} = require('./view');
+const {init_model} = require('./model');
 const {update} = require('./update');
 const {printTable} = require('console-table-printer');
 
 const state = {
-    model: initModel,
-    viewModel: view(initModel)
+    model: init_model,
+    view_model: view(init_model)
 }
 
-// Impure
 async function app(state, view, update)
 {
     while (true){
-        const {model, viewModel} = state;
-        const {title, table} = viewModel;
+        const {model, view_model} = state;
+        const {title, table} = view_model;
 
         console.clear();
         console.log(title);
         printTable(table);
 
-        const {billAmount} = await inputBill(model);
-        const {percent} = await inputPercent(model);
+        const {bill_amount} = await input_bill(model);
+        const {percent} = await input_percent(model);
 
-        const updatedModel = update(billAmount, percent, model);
+        const updated_model = update(bill_amount, percent, model);
         state = {
             ...state,
-            model: updatedModel,
-            viewModel: view(updatedModel)
+            model: updated_model,
+            view_model: view(updated_model)
         }
     }
 }
 
 app(state, view, update);
-
-/*
-// Exportation
-module.exports = {
-    app
-}
-*/

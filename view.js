@@ -2,9 +2,8 @@
 const figlet = require('figlet');
 const chalk = require('chalk');
 const inquirer = require('inquirer');
-const {initModel} = require('./model');
 
-function viewTitle()
+function view_title()
 {
     return chalk.green(
         figlet.textSync(
@@ -17,42 +16,42 @@ function viewTitle()
     )
 };
 
-function viewTable(model)
+function view_table(model)
 {
-    const {billAmount} = initModel;
-    const {percent} = initModel;
-    const {bill_tip} = initModel;
-    const {bill_total} = initModel;
+    const {bill_amount} = model;
+    const {percent} = model;
+    const {bill_tip} = model;
+    const {bill_total} = model;
     
     return [{
-        'Bill Amount': '$' + billAmount,
+        'Bill Amount': '$' + bill_amount,
         'Tip (%)': percent + '%',
         'Tip': '$' + bill_tip,
         'Total': '$' + bill_total}
     ];
 };
 
-function inputBill(model)
+function input_bill(model)
 {
-    const {billAmount} = initModel;
+    const {bill_amount} = model;
     const message = 'Bill Amount?: ';
     return inquirer.prompt([
         {
-            name: 'input',
+            name: 'bill_amount',
             type: 'number',
             message: message,
-            default: billAmount
+            default: bill_amount
         }
     ])
 };
 
-function inputPercent(model)
+function input_percent(model)
 {
-    const {percent} = initModel;
+    const {percent} = model;
     const message = 'Tip(%)?: ';
     return inquirer.prompt([
         {
-            name: 'input',
+            name: 'percent',
             type: 'number',
             message: message,
             default: percent
@@ -63,14 +62,14 @@ function inputPercent(model)
 function view(model)
 {
     return {
-        title: viewTitle(),
-        table: viewTable(model)
+        title: view_title(),
+        table: view_table(model)
     };
 };
 
 // Exportation
 module.exports = {
-    inputBill,
-    inputPercent,
+    input_bill,
+    input_percent,
     view
 }

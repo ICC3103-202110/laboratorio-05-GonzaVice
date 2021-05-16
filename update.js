@@ -9,13 +9,14 @@ function update(bill, percent, model)
     
     return{
         ...model,
-        billAmount: bill,
+        bill_amount: bill,
         percent: percent,
         bill_tip: bill_tip,
         bill_total: bill_total,
     }
 }
 
+// Exportation
 module.exports = {
     update
 }
